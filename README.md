@@ -1,6 +1,6 @@
 # filipeom
 
-Attempt to www.filipeom.dev in OCaml.
+Attempt to write www.filipeom.dev in OCaml.
 
 ## Alternatives
 

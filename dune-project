@@ -4,7 +4,7 @@
 
 (authors "Filipe Marques <filipe.s.marques@tecnico.ulisboa.pt>")
 
-(license "GPL-3.0-only")
+(license "MIT")
 
 (package
  (name filipeom)
