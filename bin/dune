@@ -1,4 +1,5 @@
 (executable
  (public_name filipeom)
- (name main))
+ (name main)
+ (libraries cmdliner yocaml yocaml_omd yocaml_unix yocaml_jingoo yocaml_yaml))
 

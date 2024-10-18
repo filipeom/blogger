@@ -11,6 +11,9 @@
  (synopsis "My home on the internet")
  (depends
   dune
+  cmdliner
   (ocaml
-   (>= "4.14.0"))
-  opium))
+   (>= "5.2.0"))
+  yocaml
+  yocaml_unix
+  ))

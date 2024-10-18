@@ -1,0 +1,9 @@
+<div>
+  <header>
+    <h1 class="slab">{{ page_title }}</h1>
+    <h2 class="slab">{{ description }}</h2>
+  </header>
+  <article>
+    {%- autoescape false -%} {{ yocaml_body }} {%- endautoescape -%}
+  </article>
+</div>

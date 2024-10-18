@@ -1,0 +1,7 @@
+pin-depends: [
+ [ "yocaml.2.0.0" "git+https://github.com/xhtmlboi/yocaml.git" ]
+ [ "yocaml_unix.2.0.0" "git+https://github.com/xhtmlboi/yocaml.git" ]
+ [ "yocaml_omd.2.0.0" "git+https://github.com/xhtmlboi/yocaml.git" ]
+ [ "yocaml_jingoo.2.0.0" "git+https://github.com/xhtmlboi/yocaml.git" ]
+ [ "yocaml_yaml.2.0.0" "git+https://github.com/xhtmlboi/yocaml.git" ]
+]

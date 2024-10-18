@@ -5,8 +5,10 @@ authors: ["Filipe Marques <filipe.s.marques@tecnico.ulisboa.pt>"]
 license: "MIT"
 depends: [
   "dune" {>= "3.15"}
-  "ocaml" {>= "4.14.0"}
-  "opium"
+  "cmdliner"
+  "ocaml" {>= "5.2.0"}
+  "yocaml"
+  "yocaml_unix"
   "odoc" {with-doc}
 ]
 build: [
@@ -22,4 +24,11 @@ build: [
     "@runtest" {with-test}
     "@doc" {with-doc}
   ]
+]
+pin-depends: [
+ [ "yocaml.2.0.0" "git+https://github.com/xhtmlboi/yocaml.git" ]
+ [ "yocaml_unix.2.0.0" "git+https://github.com/xhtmlboi/yocaml.git" ]
+ [ "yocaml_omd.2.0.0" "git+https://github.com/xhtmlboi/yocaml.git" ]
+ [ "yocaml_jingoo.2.0.0" "git+https://github.com/xhtmlboi/yocaml.git" ]
+ [ "yocaml_yaml.2.0.0" "git+https://github.com/xhtmlboi/yocaml.git" ]
 ]
