@@ -35,14 +35,14 @@ header {
 }
 
 header h1 {
-    font-size: 4.125rem;
-    line-height: 4.125rem;
+    font-size: 3rem;
+    line-height: 3rem;
     font-weight: 700;
 }
 
 header h2 {
-    font-size: 1.825rem;
-    line-height: 2.5rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
     font-weight: 400;
 }
 
@@ -115,8 +115,8 @@ article code {
 
 .article-header > div:last-child .article-synopsis {
     margin: 8px 0;
-    font-size: 1.4rem;
-    line-height: 1.4rem;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
     font-weight: 300;
 }
 
@@ -191,8 +191,9 @@ article code {
 }
 
 article {
-    font-size: 1.4rem;
-    line-height: 1.6rem;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    text-align: justify;
 }
 
 article p {
@@ -216,26 +217,26 @@ article h6 {
 }
 
 article h1 {
-    font-size: 2.125rem;
-    line-height: 2.125rem;
+    font-size: 1.875rem;
+    line-height: 2rem;
     margin: 2em 0;
 }
 
 article h2 {
-    font-size: 1.875rem;
-    line-height: 1.875rem;
+    font-size: 1.5rem;
+    line-height: 1.75rem;
     margin: 1.5em 0;
 }
 
 article h3 {
-    font-size: 1.5rem;
-    line-height: 1.5rem;
+    font-size: 1.3rem;
+    line-height: 1.6rem;
     margin: 1em 0;
 }
 
 article h4 {
-    font-size: 1.2rem;
-    line-height: 1.2rem;
+    font-size: 1rem;
+    line-height: 1.4rem;
     margin: 0.8em 0;
 }
 

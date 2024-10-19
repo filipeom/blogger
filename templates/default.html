@@ -3,10 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <!-- Display title (if it exists) -->
+    <!-- Display title -->
     <title>
       {{ page_title }}
     </title>
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
     <!-- We iterate over the metatags calculated to display them -->
     {%- for m in meta-%}
     <meta name="{{m.name}}" content="{{m.content}}" />
@@ -27,21 +29,15 @@
   <body>
     <div class="layout">
       <!-- Header -->
-      {%- include "templates/header.html" %}
+      {% include "includes/header.html" %}
 
       <!-- Content -->
       <main>
         {%- autoescape false -%} {{ yocaml_body }} {%- endautoescape -%}
       </main>
-      <footer>
-        This is an example blog, written using
-        <a href="https://gitlab.com/funkywork/yocaml">YOCaml</a>. You can find
-        the sources for this example
-        <a
-          href="https://gitlab.com/funkywork/yocaml/-/tree/main/examples/simple-blog?ref_type=heads"
-          >here</a
-        >.
-      </footer>
+
+      <!-- Footer -->
+      {% include "includes/footer.html" %}
     </div>
   </body>
 </html>

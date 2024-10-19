@@ -3,9 +3,9 @@ open Yocaml
 module Source = struct
   let source_root = Path.(rel [])
 
-  let css = Path.(source_root / "css")
+  let assets = Path.(source_root / "assets")
 
-  let index = Path.(source_root / "index.md")
+  let pages = Path.(source_root / "pages")
 
   let templates = Path.(source_root / "templates")
 
@@ -22,24 +22,29 @@ module Target = struct
   let cache = Path.(target_root / "cache")
 end
 
-let process_index =
-  let index_target = Source.as_html Target.site Source.index in
+let process_assets =
+  Action.batch ~only:`Directories Source.assets
+    (Action.copy_directory ~into:Target.site)
+
+let process_page file =
+  let target_file = Source.as_html Target.site file in
   let open Task in
-  Action.Static.write_file_with_metadata index_target
-    (Yocaml_yaml.Pipeline.read_file_with_metadata
-       (module Archetype.Page)
-       Source.index
+  Action.Static.write_file_with_metadata target_file
+    (Yocaml_yaml.Pipeline.read_file_with_metadata (module Archetype.Page) file
     >>> Yocaml_omd.content_to_html ()
     >>> Yocaml_jingoo.Pipeline.as_template
           (module Archetype.Page)
-          (Source.template "index.html")
+          (Source.template "page.html")
     >>> Yocaml_jingoo.Pipeline.as_template
           (module Archetype.Page)
-          (Source.template "layout.html"))
+          (Source.template "default.html"))
+
+let process_pages =
+  Action.batch ~only:`Files ~where:(Path.has_extension "md") Source.pages
+    process_page
 
 let process_all () =
   let open Eff in
   Action.restore_cache ~on:`Source Target.cache
-  >>= Action.copy_directory ~into:Target.site Source.css
-  >>= process_index
+  >>= process_assets >>= process_pages
   >>= Action.store_cache ~on:`Source Target.cache
