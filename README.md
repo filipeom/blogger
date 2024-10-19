@@ -1,9 +1,5 @@
 # filipeom
 
-Attempt to write www.filipeom.dev in OCaml.
+Academic pages static blog to replace www.filipeom.dev powered by [YOCaml].
 
-## Alternatives
-
-Have a look at:
-
-- [opium](https://github.com/rgrinberg/opium)
+[YOCaml]:https://github.com/xhtmlboi/yocamlhttps://github.com/xhtmlboi/yocaml
