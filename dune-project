@@ -2,7 +2,12 @@
 
 (generate_opam_files true)
 
+(source
+ (github filipeom/home))
+
 (authors "Filipe Marques <filipe.s.marques@tecnico.ulisboa.pt>")
+
+(maintainers "Filipe Marques <filipe.s.marques@tecnico.ulisboa.pt>")
 
 (license "MIT")
 
@@ -16,4 +21,6 @@
    (>= "5.2.0"))
   yocaml
   yocaml_unix
-  ))
+  yocaml_yaml
+  yocaml_jingoo
+  yocaml_omd))
