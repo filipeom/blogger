@@ -1,28 +1,37 @@
 open Cmdliner
 
-let binary = "filipeom"
-
-let serve port =
+let serve ~port =
   Yocaml_unix.serve ~level:`Info ~target:Blog.Target.site ~port Blog.process_all
 
 let run () = Yocaml_unix.run ~level:`Debug Blog.process_all
 
 let cmd_serve =
-  let port =
-    let doc = "Port to listen" in
-    Arg.(value & opt int 8000 & info [ "port"; "p" ] ~doc)
+  let term =
+    let open Term.Syntax in
+    let port =
+      let doc = "Port to listen" in
+      Arg.(value & opt int 8000 & info [ "port"; "p" ] ~doc)
+    in
+    let+ port = port in
+    serve ~port
   in
-  let doc = "Serve website" in
-  let info = Cmd.info "serve" ~doc in
-  Cmd.v info Term.(const serve $ port)
+  let info =
+    let doc = "Serve website" in
+    Cmd.info "serve" ~doc
+  in
+  Cmd.v info term
 
 let cmd_run =
-  let doc = "Compile website" in
-  let info = Cmd.info "run" ~doc in
-  Cmd.v info Term.(const run $ const ())
+  let term = Term.(const run $ const ()) in
+  let info =
+    let doc = "Compile website" in
+    Cmd.info "run" ~doc
+  in
+  Cmd.v info term
 
 let cli =
-  let info = Cmdliner.Cmd.info binary in
+  let name = "home" in
+  let info = Cmdliner.Cmd.info name in
   Cmdliner.Cmd.group info [ cmd_serve; cmd_run ]
 
 let () =
