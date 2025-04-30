@@ -1,13 +1,13 @@
+open Cmdliner
+
 let binary = "filipeom"
 
 let serve port =
-  Yocaml_unix.serve ~level:`Info ~target:Blog.Target.site ~port
-    Blog.process_all
+  Yocaml_unix.serve ~level:`Info ~target:Blog.Target.site ~port Blog.process_all
 
 let run () = Yocaml_unix.run ~level:`Debug Blog.process_all
 
 let cmd_serve =
-  let open Cmdliner in
   let port =
     let doc = "Port to listen" in
     Arg.(value & opt int 8000 & info [ "port"; "p" ] ~doc)
@@ -17,7 +17,6 @@ let cmd_serve =
   Cmd.v info Term.(const serve $ port)
 
 let cmd_run =
-  let open Cmdliner in
   let doc = "Compile website" in
   let info = Cmd.info "run" ~doc in
   Cmd.v info Term.(const run $ const ())
