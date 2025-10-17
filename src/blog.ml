@@ -1,50 +1,42 @@
 open Yocaml
 
-module Source = struct
-  let source_root = Path.(rel [])
+let create_assets =
+  Action.batch ~only:`Directories Build.Source.assets
+    (Action.copy_directory ~into:Build.Target.site)
 
-  let assets = Path.(source_root / "assets")
+let create_page =
+  let config =
+    Yocaml_yaml.Pipeline.read_file_as_metadata
+      (module Layout.Config)
+      Build.Source.config
+  in
+  fun file ->
+    let target_file = Build.Source.as_html Build.Target.site file in
+    let pipeline =
+      let open Task in
+      let+ () = Pipeline.track_file Build.Source.binary
+      and+ config
+      and+ page, content =
+        Yocaml_yaml.Pipeline.read_file_with_metadata (module Page) file
+      and+ apply_templates =
+        Yocaml_jingoo.read_templates
+          [ Build.Source.template "page.html"
+          ; Build.Source.template "layout.html"
+          ]
+      in
+      let metadata = Layout.make ~page ~config in
+      Logs.debug (fun m -> m "Using metadata: %a@." Layout.pp metadata);
+      Omd.of_string content |> Omd.to_html
+      |> apply_templates (module Layout) ~metadata
+    in
+    Action.Static.write_file target_file pipeline
 
-  let pages = Path.(source_root / "pages")
+let create_pages =
+  Action.batch ~only:`Files ~where:(Path.has_extension "md") Build.Source.pages
+    create_page
 
-  let templates = Path.(source_root / "templates")
-
-  let template path = Path.(templates / path)
-
-  let as_html into file = Path.move ~into file |> Path.change_extension "html"
-end
-
-module Target = struct
-  let target_root = Path.(rel [ "_build" ])
-
-  let site = Path.(target_root / "_html")
-
-  let cache = Path.(target_root / "cache")
-end
-
-let process_assets =
-  Action.batch ~only:`Directories Source.assets
-    (Action.copy_directory ~into:Target.site)
-
-let process_page file =
-  let target_file = Source.as_html Target.site file in
-  let open Task in
-  Action.Static.write_file_with_metadata target_file
-    (Yocaml_yaml.Pipeline.read_file_with_metadata (module Archetype.Page) file
-    >>> Yocaml_omd.content_to_html ()
-    >>> Yocaml_jingoo.Pipeline.as_template
-          (module Archetype.Page)
-          (Source.template "page.html")
-    >>> Yocaml_jingoo.Pipeline.as_template
-          (module Archetype.Page)
-          (Source.template "default.html"))
-
-let process_pages =
-  Action.batch ~only:`Files ~where:(Path.has_extension "md") Source.pages
-    process_page
-
-let process_all () =
+let build () =
   let open Eff in
-  Action.restore_cache ~on:`Source Target.cache
-  >>= process_assets >>= process_pages
-  >>= Action.store_cache ~on:`Source Target.cache
+  Action.restore_cache Build.Target.cache
+  >>= create_assets >>= create_pages
+  >>= Action.store_cache Build.Target.cache

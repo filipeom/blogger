@@ -1,9 +1,9 @@
 open Cmdliner
 
 let serve ~port =
-  Yocaml_unix.serve ~level:`Info ~target:Blog.Target.site ~port Blog.process_all
+  Yocaml_unix.serve ~level:`Info ~target:Build.Target.site ~port Blog.build
 
-let run () = Yocaml_unix.run ~level:`Debug Blog.process_all
+let run () = Yocaml_unix.run ~level:`Debug Blog.build
 
 let cmd_serve =
   let term =

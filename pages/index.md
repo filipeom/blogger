@@ -1,9 +1,12 @@
 ---
 page_title: Filipe Marques
-description: Junior Researcher @ INESC-ID, PhD Student @ IST
+description: PhD Student @ INESC-ID / IST, University of Lisbon
+profile:
+    photo: profile-pic.jpg
 ---
 
-Welcome! My name is Filipe Marques. I am a PhD Student in <a href="https://fenix.tecnico.ulisboa.pt/cursos/deic/phd-home">Computer Science and Engineering</a> at <a href="https://tecnico.ulisboa.pt/en">Instituto Superior Técnico (IST)</a>, under the CMU Portugal Affiliated PhD Program, where I am very fortunate to be advised by Prof. <a href="https://web.ist.utl.pt/jose.fragoso">José Fragoso Santos</a> and Prof. <a href="https://www.gsd.inesc-id.pt/~nsantos">Nuno Santos</a>.
-I am also a junior researcher at <a href="https://www.inesc-id.pt">INESC-ID</a>. My research interests are focused on programming languages, software verification and validation, formal methods, and cybersecurity.
+Welcome! My name is Filipe Marques. I am a PhD Student in <a href="https://fenix.tecnico.ulisboa.pt/cursos/deic/phd-home">Computer Science and Engineering</a> at <a href="https://tecnico.ulisboa.pt/en">Instituto Superior Técnico (IST)</a>, enrolled through the CMU Portugal Affiliated PhD Program. I am fortunate to be advised by Professors <a href="https://web.ist.utl.pt/jose.fragoso">José Fragoso Santos</a>, <a href="https://www.gsd.inesc-id.pt/~nsantos">Nuno Santos</a>, and <a href="https://www.ece.cmu.edu/directory/bios/jia-limin.html">Limin Jia</a>.
 
-Previously, I completed my MSc in Computer Science and Engineering at IST. My dissertation, entitled <i><a href="https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1128253548922792">Robust Symbolic Execution for WebAssembly</a></i>, was supervised by Prof. <a href="https://web.ist.utl.pt/jose.fragoso">José Fragoso Santos</a> and Prof. <a href="https://www.gsd.inesc-id.pt/~nsantos">Nuno Santos</a> and was defended on December 2021.
+I am also a junior researcher at <a href="https://www.inesc-id.pt">INESC ID</a>. My research focuses on programming languages, formal methods, and automated test generation, with a particular interest in making software systems more secure and reliable.
+
+I'm an open-source enthusiast, a strong advocate for well-typed code, and an unapologetic fan of <a href="https://ocaml.org/">OCaml</a>. I believe programming languages should help you reason, not just compile.

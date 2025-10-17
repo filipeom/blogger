@@ -1,9 +1,9 @@
-(lang dune 3.15)
+(lang dune 3.20)
 
 (generate_opam_files true)
 
 (source
- (github filipeom/home))
+ (github filipeom/blogger))
 
 (authors "Filipe Marques <filipe.s.marques@tecnico.ulisboa.pt>")
 
@@ -12,15 +12,14 @@
 (license "MIT")
 
 (package
- (name filipeom)
+ (name blogger)
  (synopsis "My home on the internet")
  (depends
   dune
   cmdliner
   (ocaml
    (>= "5.2.0"))
-  yocaml
-  yocaml_unix
-  yocaml_yaml
-  yocaml_jingoo
-  yocaml_omd))
+  omd
+  jingoo
+  fpath
+  bos))

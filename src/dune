@@ -1,4 +1,6 @@
 (executable
- (public_name filipeom)
+ (public_name blogger)
  (name main)
- (libraries cmdliner yocaml yocaml_omd yocaml_unix yocaml_jingoo yocaml_yaml))
+ (libraries cmdliner yocaml yocaml_omd yocaml_unix yocaml_jingoo yocaml_yaml)
+ (preprocess
+   (pps ppx_deriving.make ppx_deriving.show)))

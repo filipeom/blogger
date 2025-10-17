@@ -1,9 +1,18 @@
-<div>
-  <header>
-    <h1 class="slab">{{ page_title }}</h1>
-    <h2 class="slab">{{ description }}</h2>
-  </header>
-  <article>
-    {%- autoescape false -%} {{ yocaml_body }} {%- endautoescape -%}
-  </article>
-</div>
+{%- if page_title -%}
+<header class="page-header">
+  <h1 class="slab">{{ page_title }}</h1>
+  {%- if description -%}
+  <h2 class="slab">{{ description }}</h2>
+  {%- endif -%}
+</header>
+{%- endif -%}
+
+<article>
+  {%- if profile.photo -%}
+  <img src="{{ profile.photo }}" alt="Profile picture for {{ page_title }}" class="profile-picture">
+  {%- endif -%}
+
+  {%- autoescape false -%}
+    {{ yocaml_body }}
+  {%- endautoescape -%}
+</article>

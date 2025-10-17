@@ -1,284 +1,208 @@
+/* --- 1. Global Styles & Variables --- */
 :root {
-    --font-sans: "Roboto", sans-serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --font-mono: "Roboto Mono", monospace;
     --font-slab: "Roboto Slab", serif;
+
+    /* Softer, elegant color palette */
+    --color-text: #333333; /* Dark gray instead of pure black */
+    --color-background: #fdfdfd; /* Slightly off-white */
+    --color-primary: #0056b3; /* A muted, professional blue for links/accents */
+    --color-border: #dddddd; /* Lighter border color */
+    --color-meta: #666666; /* For less important text like dates/tags */
 }
 
 body {
     font-family: var(--font-sans);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.6; /* Increased line-height for readability */
+    font-size: 16px; /* Set a base font size */
 }
 
+/* --- 2. Layout --- */
 .layout {
-    width: 100%;
-    max-width: 1200px;
+    max-width: 800px; /* Narrower max-width for better readability on large screens */
     margin: 0 auto;
-    padding: 0;
-    padding-top: 32px;
+    padding: 0 24px; /* Add horizontal padding for smaller screens */
 }
 
-.mono,
-.slab {
-    font-optical-sizing: auto;
-    font-style: normal;
-}
-
-.mono {
-    font-family: var(--font-mono);
-}
-
-.slab {
-    font-family: var(--font-slab);
-}
-
+/* --- 3. Header --- */
 header {
-    margin: 64px 0;
-}
-
-header h1 {
-    font-size: 3rem;
-    line-height: 3rem;
-    font-weight: 700;
-}
-
-header h2 {
-    font-size: 1.5rem;
-    line-height: 2rem;
-    font-weight: 400;
-}
-
-header nav {
-    margin: 16px 0;
+    display: flex; /* Use flexbox to align title and nav */
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow items to wrap on small screens */
+    padding: 32px 0 8px 0; /* Changed from '32px 0'. This reduces the space before the line. */
+    border-bottom: 1px solid var(--color-border); /* Subtle separator */
+    margin-bottom: 16px; /* Changed from '48px'. This moves the title up. */
 }
 
 header nav ul {
     padding: 0;
+    margin: 0;
     list-style-type: none;
+    display: flex; /* Use flexbox for the nav items */
+    gap: 24px; /* Space between nav items */
 }
 
 header nav ul > li {
+    /* Removed all the border styling */
     display: inline-block;
-    border: 2px solid #000000;
-    padding: 2px 4px;
 }
 
 header nav ul > li > a {
     text-decoration: none;
-    color: #000000;
-    font-weight: 700;
+    color: var(--color-text);
+    font-weight: 500;
+    padding-bottom: 4px;
+    transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out; /* Smooth transition */
+    border-bottom: 2px solid transparent; /* Prepare for hover effect */
 }
 
-footer {
-    margin: 32px 0;
-    padding-top: 16px;
+header nav ul > li > a:hover {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary); /* Elegant hover effect */
 }
 
-article code {
-    font-family: var(--font-mono);
-    font-optical-sizing: auto;
-    font-style: normal;
-}
-
-.articles-index {
-    margin-top: 32px;
-    padding: 0;
-    list-style-type: none;
-}
-
-.article-header,
-.articles-index > li {
-    margin-bottom: 64px;
-    display: inline-flex;
-    flex-direction: row;
-}
-
-.article-header > div:first-child,
-.articles-index > li > div:first-child {
-    flex: 0;
-    margin-right: 32px;
-    margin-top: 12px;
-}
-
-.article-header > div:last-child,
-.articles-index > li > div:last-child {
-    flex: 1;
+.site-identity {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Adjust the space between your name and the icons */
 }
 
-.article-header > div:last-child .article-synopsis,
-.articles-index > li > div:last-child .article-synopsis {
-    flex: 1;
-    margin: 24px 0;
-    font-size: 1.5rem;
-    font-weight: 300;
+.social-icons {
+  display: flex;
+  align-items: center;
+  gap: 18px; /* A little more space between icons */
 }
 
-.article-header > div:last-child .article-synopsis {
-    margin: 8px 0;
-    font-size: 1.2rem;
-    line-height: 1.6rem;
-    font-weight: 300;
+/* Styling for each individual icon link */
+.social-icons a {
+  display: inline-block;
+  color: var(--color-meta); /* Use a defined variable for a subtle look */
+  font-size: 1.7rem; /* Control icon size with font-size */
+  transition: transform 0.2s ease-out, color 0.2s ease-out; /* Smoother transition */
 }
 
-.page-title {
-    font-size: 2.8rem;
-    line-height: 2.8rem;
-    font-weight: 700;
-    margin-bottom: 32px;
-}
-.article-header,
-.articles-index > li h3 {
-    font-size: 1.8rem;
-    line-height: 2.5rem;
-    font-weight: 700;
+/* The cool hover effect */
+.social-icons a:hover {
+  color: var(--color-primary); /* Use your primary color on hover */
+  transform: scale(1.2) translateY(-2px); /* Make it pop and lift slightly */
 }
 
-.articles-index > li h3 a {
-    color: #000000;
-    text-decoration: underline;
-}
-
-.tags {
-    padding: 0;
-    list-style-type: none;
-}
-
-.article-header .tags {
-    font-size: 1rem;
-}
-
-.tags li {
-    display: inline-block;
-    margin-right: 6px;
-    color: #666666;
-    padding: 2px 4px;
-    font-weight: 700;
-}
-
-.tags li::before {
-    content: "#";
-    color: #999999;
-}
-
-.date {
-    border: 2px solid #000000;
-}
-
-.date .day {
-    font-size: 1.325rem;
-    line-height: 1.8rem;
-    font-weight: 700;
+/* --- 4. Footer --- */
+footer {
+    margin-top: 64px;
+    padding: 32px 0;
+    border-top: 1px solid var(--color-border);
     text-align: center;
-    padding: 6px 12px;
+    font-size: 0.9rem;
+    color: var(--color-meta);
 }
 
-.article-header .date .day {
-    font-size: 2.325rem;
+footer .made-with {
+    margin-top: 24px;
+    font-size: 0.8rem;
 }
 
-.date .year,
-.date .month {
-    text-align: center;
-    padding: 2px 12px;
+footer .made-with a {
+    color: var(--color-meta);
 }
 
-.date .year {
-    border-bottom: 2px solid #000000;
-}
-
-.date .month {
-    border-top: 2px solid #000000;
-}
-
+/* --- 5. Article & Typography --- */
 article {
-    font-size: 1rem;
-    line-height: 1.4rem;
-    text-align: justify;
+    font-size: 1.1rem; /* Slightly larger for comfort */
+    line-height: 1.7;
+    text-align: left; /* Changed from justify to prevent awkward spacing */
+}
+
+article a {
+    color: var(--color-primary);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-primary);
+}
+
+article a:hover {
+    background-color: #eef5ff; /* Subtle background highlight on hover */
 }
 
 article p {
-    margin-bottom: 24px;
+  /* Increase this value from 24px to something larger.
+       Using 'em' is great because it scales with the font size. */
+    margin-bottom: 1.5em; /* Roughly 26.4px, a noticeable increase */
 }
 
-article p:last-child {
-    margin: 0;
-}
-
-article h1,
-article h2,
-article h3,
-article h4,
-article h5,
-article h6 {
-    font-optical-sizing: auto;
-    font-style: normal;
+/* ... keep your well-defined article h1-h6, table, blockquote styles ... */
+/* You may want to adjust their colors to use your new variables */
+article h1, article h2, article h3, article h4, article h5, article h6 {
     font-family: var(--font-slab);
-    font-weight: 700;
-}
-
-article h1 {
-    font-size: 1.875rem;
-    line-height: 2rem;
-    margin: 2em 0;
-}
-
-article h2 {
-    font-size: 1.5rem;
-    line-height: 1.75rem;
-    margin: 1.5em 0;
-}
-
-article h3 {
-    font-size: 1.3rem;
-    line-height: 1.6rem;
-    margin: 1em 0;
-}
-
-article h4 {
-    font-size: 1rem;
-    line-height: 1.4rem;
-    margin: 0.8em 0;
-}
-
-article h5 {
-    font-size: 1rem;
-    line-height: 1rem;
-    margin: 0.6em 0;
-}
-
-article ul > li,
-article ol > li {
-    margin-bottom: 12px;
-}
-
-article ul > li:last-child,
-article ol > li:last-child {
-    margin-bottom: 0;
-}
-
-article blockquote {
-    padding-left: 32px;
-    margin-bottom: 24px;
-    font-weight: 300;
+    color: var(--color-text);
 }
 
 article table {
     margin: 64px auto;
     border-collapse: collapse;
-    min-width: 600px;
-}
-
-article th {
-    background-color: #dddddd;
+    width: 100%; /* Make tables responsive */
+    min-width: 0; /* Override previous min-width */
 }
 
 article th,
 article td {
-    border: 1px solid #000000;
-    padding: 6px 12px;
+    border: 1px solid var(--color-border); /* Use new border color */
+    padding: 8px 12px;
 }
 
-article td:empty {
-    visibility: hidden;
-    border: 0 solid transparent;
+/* Refined Tags Style */
+.tags li {
+    display: inline-block;
+    margin-right: 8px;
+    color: var(--color-meta);
+    background-color: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 4px; /* Rounded corners for a softer look */
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.tags li::before {
+    content: "#";
+    color: #999999;
+    margin-right: 2px;
+}
+
+/* Refined Date Style */
+.date {
+    border: 1px solid var(--color-border); /* Softer border */
+    text-align: center;
+}
+
+.date .day {
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 8px 12px;
+    background-color: #f9f9f9;
+}
+
+.date .month, .date .year {
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    color: var(--color-meta);
+    text-transform: uppercase;
+}
+
+.date .month {
+    border-top: 1px solid var(--color-border);
+}
+
+.date .year {
+    border-top: 1px solid var(--color-border);
+    background-color: #f9f9f9;
+}
+
+.profile-picture {
+  float: right;
+  width: 200px; /* Adjust the size as you like */
+  margin: 0 0 15px 20px; /* Adds space around the image */
+  border-radius: 8px; /* Optional: gives the photo rounded corners */
 }
