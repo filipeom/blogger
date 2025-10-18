@@ -1,0 +1,18 @@
+{%- if page_title -%}
+<header class="page-header">
+  <h1 class="slab">{{ page_title }}</h1>
+  {%- if description -%}
+  <h2 class="slab">{{ description }}</h2>
+  {%- endif -%}
+</header>
+{%- endif -%}
+
+<article>
+  {%- if profile_photo -%}
+  <img src="/img/{{ profile_photo }}" alt="Profile picture for {{ page_title }}" class="profile-picture">
+  {%- endif -%}
+
+  {%- autoescape false -%}
+    {{ yocaml_body }}
+  {%- endautoescape -%}
+</article>

@@ -1,8 +1,9 @@
 ---
+layout: index
 page_title: Filipe Marques
 description: PhD Student @ INESC-ID / IST, University of Lisbon
-profile:
-    photo: profile-pic.jpg
+# In assets: img/
+profile_photo: family.jpg
 ---
 
 Welcome! My name is Filipe Marques. I am a PhD Student in <a href="https://fenix.tecnico.ulisboa.pt/cursos/deic/phd-home">Computer Science and Engineering</a> at <a href="https://tecnico.ulisboa.pt/en">Instituto Superior Técnico (IST)</a>, enrolled through the CMU Portugal Affiliated PhD Program. I am fortunate to be advised by Professors <a href="https://web.ist.utl.pt/jose.fragoso">José Fragoso Santos</a>, <a href="https://www.gsd.inesc-id.pt/~nsantos">Nuno Santos</a>, and <a href="https://www.ece.cmu.edu/directory/bios/jia-limin.html">Limin Jia</a>.

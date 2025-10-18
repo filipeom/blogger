@@ -8,11 +8,5 @@
 {%- endif -%}
 
 <article>
-  {%- if profile.photo -%}
-  <img src="{{ profile.photo }}" alt="Profile picture for {{ page_title }}" class="profile-picture">
-  {%- endif -%}
-
-  {%- autoescape false -%}
-    {{ yocaml_body }}
-  {%- endautoescape -%}
+  {%- autoescape false -%} {{ yocaml_body }} {%- endautoescape -%}
 </article>
