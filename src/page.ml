@@ -9,19 +9,23 @@ module Base = struct
 
   let neutral = Ok (make ())
 
-  let validate_fields fields =
-    let open Yocaml.Data.Validation in
-    let+ title = optional fields "page_title" string
-    and+ description = optional fields "description" string in
-    make ?title ?description ()
+  let validate_fields _fields =
+    (* let open Yocaml.Data.Validation in *)
+    (* let+ title = optional fields "page_title" string *)
+    (* and+ description = optional fields "description" string in *)
+    (* make ?title ?description () *)
+    assert false
 
-  let validate data = Yocaml.Data.Validation.record validate_fields data
+  let validate _data =
+    (* Yocaml.Data.Validation.record validate_fields data *)
+    assert false
 
-  let normalize page =
-    Yocaml.Data.
-      [ ("page_title", option string page.title)
-      ; ("description", option string page.description)
-      ]
+  let normalize _page =
+    (* Yocaml.Data. *)
+    (* [ ("page_title", option string page.title) *)
+    (* ; ("description", option string page.description) *)
+    (* ] *)
+    assert false
 end
 
 module Index = struct
@@ -36,21 +40,25 @@ module Index = struct
 
   let neutral = Ok (make ())
 
-  let validate_fields fields =
-    let open Yocaml.Data.Validation in
-    let+ title = optional fields "page_title" string
-    and+ description = optional fields "description" string
-    and+ profile_photo = optional fields "profile_photo" string in
-    make ?title ?description ?profile_photo ()
+  let validate_fields _fields =
+    (* let open Yocaml.Data.Validation in *)
+    (* let+ title = optional fields "page_title" string *)
+    (* and+ description = optional fields "description" string *)
+    (* and+ profile_photo = optional fields "profile_photo" string in *)
+    (* make ?title ?description ?profile_photo () *)
+    assert false
 
-  let validate data = Yocaml.Data.Validation.record validate_fields data
+  let validate _data =
+    (* Yocaml.Data.Validation.record validate_fields data *)
+    assert false
 
-  let normalize page =
-    Yocaml.Data.
-      [ ("page_title", option string page.title)
-      ; ("description", option string page.description)
-      ; ("profile_photo", option string page.profile_photo)
-      ]
+  let normalize _page =
+    (* Yocaml.Data. *)
+    (*   [ ("page_title", option string page.title) *)
+    (*   ; ("description", option string page.description) *)
+    (*   ; ("profile_photo", option string page.profile_photo) *)
+    (*   ] *)
+    assert false
 end
 
 type t =
@@ -60,26 +68,22 @@ type t =
 
 let entity_name = "page"
 
-let neutral =
-  let open Yocaml.Data.Validation in
-  let+ page = Base.neutral in
-  Base page
-
-let validate data =
-  let open Yocaml.Data.Validation in
-  record
-    (fun fields ->
-      let* layout = required fields "layout" string in
-      match layout with
-      | "index" ->
-        let+ page = Index.validate_fields fields in
-        Index page
-      | "base" ->
-        let+ page = Base.validate_fields fields in
-        Base page
-      | "article" -> assert false
-      | field -> Error (Yocaml.Nel.singleton (Missing_field { field })) )
-    data
+let validate _data =
+  (* let open Yocaml.Data.Validation in *)
+  (* record *)
+  (*   (fun fields -> *)
+  (*     let* layout = required fields "layout" string in *)
+  (*     match layout with *)
+  (*     | "index" -> *)
+  (*       let+ page = Index.validate_fields fields in *)
+  (*       Index page *)
+  (*     | "base" -> *)
+  (*       let+ page = Base.validate_fields fields in *)
+  (*       Base page *)
+  (*     | "article" -> assert false *)
+  (*     | field -> Error (Yocaml.Nel.singleton (Missing_field { field })) ) *)
+  (*   data *)
+  assert false
 
 let normalize = function
   | Base page -> Base.normalize page
