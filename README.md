@@ -1,5 +1,4 @@
-# filipeom
+# Blogger
 
-Academic pages static blog to replace www.filipeom.dev powered by [YOCaml].
-
-[YOCaml]:https://github.com/xhtmlboi/yocamlhttps://github.com/xhtmlboi/yocaml
+I wanted a way of creating a static blog in OCaml but I didn't want to spend to much time learning a new framework.
+So I'm making this.
