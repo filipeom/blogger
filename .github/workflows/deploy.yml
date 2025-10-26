@@ -34,8 +34,10 @@ jobs:
       - name: Install Dependencies
         run: opam install -y . --deps-only --with-doc --with-test
 
-      - name: Build doc
-        run: opam exec -- dune build @doc
+      - name: Build Webpage
+        run: |
+          opam exec -- dune build @all
+          opam exec -- dune exec -- blogger run
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
