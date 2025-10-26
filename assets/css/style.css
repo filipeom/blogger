@@ -114,7 +114,7 @@ footer .made-with a {
 article {
     font-size: 1.1rem; /* Slightly larger for comfort */
     line-height: 1.7;
-    text-align: left; /* Changed from justify to prevent awkward spacing */
+    text-align: justify;
 }
 
 article a {
