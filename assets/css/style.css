@@ -202,7 +202,9 @@ article td {
 
 .profile-picture {
   float: right;
-  width: 275px; /* Adjust the size as you like */
+  width: 35%; /* Adjust the size as you like */
+  max-width: 275px; /* Adjust the size as you like */
   margin: 0 0 15px 20px; /* Adds space around the image */
   border-radius: 8px; /* Optional: gives the photo rounded corners */
+  height: auto;
 }
