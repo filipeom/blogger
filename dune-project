@@ -13,13 +13,18 @@
 
 (package
  (name blogger)
- (synopsis "My home on the internet")
+ (synopsis "Blogger")
  (depends
   dune
   cmdliner
   (ocaml
-   (>= "5.2.0"))
-  omd
-  jingoo
+   (>= "5.3.0"))
+  bos
+  cmdliner
+  cmarkit
   fpath
-  bos))
+  logs
+  jingoo
+  yaml
+  ppx_deriving
+  ppx_deriving_yaml))
