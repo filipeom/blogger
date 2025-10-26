@@ -1,25 +1,7 @@
 open Cmdliner
 
-let run () = Blog.build ()
-
-(* let cmd_serve = *)
-(*   let term = *)
-(*     let open Term.Syntax in *)
-(*     let port = *)
-(*       let doc = "Port to listen" in *)
-(*       Arg.(value & opt int 8000 & info [ "port"; "p" ] ~doc) *)
-(*     in *)
-(*     let+ port = port in *)
-(*     serve ~port *)
-(*   in *)
-(*   let info = *)
-(*     let doc = "Serve website" in *)
-(*     Cmd.info "serve" ~doc *)
-(*   in *)
-(*   Cmd.v info term *)
-
 let cmd_run =
-  let term = Term.(const run $ const ()) in
+  let term = Term.(const Blog.build $ const ()) in
   let info =
     let doc = "Compile website" in
     Cmd.info "run" ~doc
@@ -27,9 +9,25 @@ let cmd_run =
   Cmd.v info term
 
 let cli =
-  let name = "home" in
+  let name = "blogger" in
   let info = Cmdliner.Cmd.info name in
   Cmdliner.Cmd.group info [ cmd_run ]
 
-let () =
-  match Cmdliner.Cmd.eval_value' cli with `Ok () -> () | `Exit n -> exit n
+let exitcode =
+  match Cmdliner.Cmd.eval_value cli with
+  | Ok (`Help | `Version) -> Cmd.Exit.ok
+  | Ok (`Ok result) -> begin
+    match result with
+    | Ok () -> Cmd.Exit.ok
+    | Error (`Msg e) ->
+      Logs.debug (fun m -> m "%s" e);
+      1
+  end
+  | Error e -> begin
+    match e with
+    | `Term -> Cmd.Exit.some_error
+    | `Exn -> Cmd.Exit.internal_error
+    | `Parse -> Cmd.Exit.cli_error
+  end
+
+let () = exit exitcode

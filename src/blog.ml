@@ -1,19 +1,19 @@
-let ( let* ) = Result.bind
-
 module Source = struct
   let source_root = Fpath.v "."
 
-  let assets = Fpath.(source_root / "assets")
+  let ( / ) = Fpath.( / )
 
-  let pages = Fpath.(source_root / "pages")
+  let assets = source_root / "assets"
 
-  let templates = Fpath.(source_root / "templates")
+  let pages = source_root / "pages"
 
-  let config = Fpath.(source_root / "_config.yaml")
+  let templates = source_root / "templates"
+
+  let config = source_root / "_config.yaml"
 
   let binary = Fpath.v Sys.argv.(0)
 
-  let template path = Fpath.(templates / path)
+  let template path = templates / path
 
   let as_html into file =
     let base_name = Fpath.base file |> Fpath.set_ext ".html" in
@@ -21,60 +21,74 @@ module Source = struct
 end
 
 module Target = struct
-  let target_root = Fpath.(v "_build")
+  let target_root = Fpath.v "_build"
 
-  let site = Fpath.(target_root / "_html")
+  let ( / ) = Fpath.( / )
 
-  let cache = Fpath.(target_root / "cache")
+  let site = target_root / "_html"
 end
 
 let create_assets () =
   Path.iter ~traverse:`None ~elements:`Dirs Source.assets @@ fun dir ->
-  let base_dir = Fpath.rem_prefix Source.assets dir |> Option.get in
-  let new_dir = Fpath.(normalize (Target.site // base_dir)) in
-  Logs.debug (fun m -> m "cp %a %a" Fpath.pp dir Fpath.pp new_dir);
-  Path.create_dir new_dir;
-  Path.copy_directory ~into:new_dir dir
+  match Fpath.rem_prefix Source.assets dir with
+  | Some base_dir ->
+    let new_dir = Fpath.(normalize (Target.site // base_dir)) in
+    Logs.debug (fun m ->
+      m "Copying assets: %a -> %a" Fpath.pp dir Fpath.pp new_dir );
 
-let create_page (_config : Config.t) file =
+    Path.create_dir new_dir;
+    Path.copy_directory ~into:new_dir dir
+  | None ->
+    Logs.warn (fun m ->
+      m "Could not determine base directory for asset: %a" Fpath.pp dir )
+
+let process_markdown file =
+  let open Result.Syntax in
+  let* lines = Bos.OS.File.read_lines file in
+  let* meta, content = Meta.parse lines in
+  let doc = Cmarkit.Doc.of_string content in
+  let html_content = Cmarkit_html.of_doc ~safe:false doc in
+  let+ page_data = Page.of_yaml meta in
+  (page_data, html_content)
+
+let render_content page_data html_content =
+  let open Jingoo_build.Types in
+  let page_models = Page.models page_data in
+  let models = ("content", string html_content) :: page_models in
+  let template_file = Source.template (Page.get_template page_data) in
+  Jingoo.Jg_template.from_file ~models (Fpath.to_string template_file)
+
+let render_document config content page_data =
+  let open Jingoo_build.Types in
+  let page_models = Page.models page_data in
+  let models =
+    (("content", string content) :: Config.models config) @ page_models
+  in
+  let template_file = Source.template "document.html" in
+  Jingoo.Jg_template.from_file ~models (Fpath.to_string template_file)
+
+(* FIXME: Refactor, just a proof of concept *)
+let create_page (config : Config.t) file =
+  let open Result.Syntax in
   let target_file = Source.as_html Target.site file in
   Logs.debug (fun m -> m "creating page: %a" Fpath.pp target_file);
-  let pipeline =
-    let* content = Bos.OS.File.read file in
-    let doc = Cmarkit.Doc.of_string content in
-    let html = Cmarkit_html.of_doc ~safe:false doc in
-    Bos.OS.File.write target_file html
-  in
-  (* let pipeline = *)
-  (*   let open Task in *)
-  (*   let+ () = Pipeline.track_file Source.binary *)
-  (*   and+ config = *)
-  (*     Yocaml_yaml.Pipeline.read_file_as_metadata (module Config) Source.config *)
-  (*   and+ page, content = *)
-  (*     Yocaml_yaml.Pipeline.read_file_with_metadata (module Page) file *)
-  (*   and+ apply_templates = *)
-  (*     Yocaml_jingoo.read_templates *)
-  (*       [ Source.template template; Source.template "document.html" ] *)
-  (*   in *)
-  (*   let metadata = Document.make ~page ~config in *)
-  (*   Logs.debug (fun m -> m "Using metadata: %a@." Document.pp metadata); *)
-  (*   let content = Omd.of_string content |> Omd.to_html in *)
-  (*   apply_templates (module Document) ~metadata content *)
-  (* in *)
-  (* Action.Static.write_file target_file pipeline *)
-  pipeline |> Utils.log_err
+  let+ page_data, html_content = process_markdown file in
+  let content = render_content page_data html_content in
+  let document = render_document config content page_data in
+  Path.write_file target_file document
 
 let create_pages config =
   Path.iter ~traverse:`None ~elements:`Files Source.pages @@ fun file ->
-  if Fpath.has_ext "md" file then create_page config file
+  if Fpath.has_ext "md" file then create_page config file |> Utils.log_err
 
 let init () =
   Logs.set_reporter (Logs_fmt.reporter ());
   Logs.set_level (Some Logs.Debug)
 
 let build () =
+  let open Result.Syntax in
   init ();
-  let config = Config.from_file Source.config |> Result.get_ok in
+  let+ config = Config.from_file Source.config in
   Logs.debug (fun m -> m "using config:@; %a" Config.pp config);
   create_assets ();
   create_pages config

@@ -1,64 +1,31 @@
 module Base = struct
   type t =
-    { title : string option
+    { page_title : string option
     ; description : string option
     }
-  [@@deriving make, show]
+  [@@deriving make, show, yaml ~skip_unknown]
 
-  let entity_name = "base"
-
-  let neutral = Ok (make ())
-
-  let validate_fields _fields =
-    (* let open Yocaml.Data.Validation in *)
-    (* let+ title = optional fields "page_title" string *)
-    (* and+ description = optional fields "description" string in *)
-    (* make ?title ?description () *)
-    assert false
-
-  let validate _data =
-    (* Yocaml.Data.Validation.record validate_fields data *)
-    assert false
-
-  let normalize _page =
-    (* Yocaml.Data. *)
-    (* [ ("page_title", option string page.title) *)
-    (* ; ("description", option string page.description) *)
-    (* ] *)
-    assert false
+  let models page =
+    Jingoo_build.Types.
+      [ ("page_title", option string page.page_title)
+      ; ("description", option string page.description)
+      ]
 end
 
 module Index = struct
   type t =
-    { title : string option
+    { page_title : string option
     ; description : string option
     ; profile_photo : string option
     }
-  [@@deriving make, show]
+  [@@deriving make, show, yaml ~skip_unknown]
 
-  let entity_name = "basex"
-
-  let neutral = Ok (make ())
-
-  let validate_fields _fields =
-    (* let open Yocaml.Data.Validation in *)
-    (* let+ title = optional fields "page_title" string *)
-    (* and+ description = optional fields "description" string *)
-    (* and+ profile_photo = optional fields "profile_photo" string in *)
-    (* make ?title ?description ?profile_photo () *)
-    assert false
-
-  let validate _data =
-    (* Yocaml.Data.Validation.record validate_fields data *)
-    assert false
-
-  let normalize _page =
-    (* Yocaml.Data. *)
-    (*   [ ("page_title", option string page.title) *)
-    (*   ; ("description", option string page.description) *)
-    (*   ; ("profile_photo", option string page.profile_photo) *)
-    (*   ] *)
-    assert false
+  let models page =
+    Jingoo_build.Types.
+      [ ("page_title", option string page.page_title)
+      ; ("description", option string page.description)
+      ; ("profile_photo", option string page.profile_photo)
+      ]
 end
 
 type t =
@@ -66,25 +33,22 @@ type t =
   | Index of Index.t
 [@@deriving show]
 
-let entity_name = "page"
+let of_yaml yaml =
+  let open Result.Syntax in
+  let* layout = Yaml.Util.find "layout" yaml in
+  match layout with
+  | None -> Error (`Msg "a page must define a layout")
+  | Some (`String "base") ->
+    let+ page = Base.of_yaml yaml in
+    Base page
+  | Some (`String "index") ->
+    let+ page = Index.of_yaml yaml in
+    Index page
+  | Some unknown -> Error (`Msg (Fmt.str "unknown layout: %a" Yaml.pp unknown))
 
-let validate _data =
-  (* let open Yocaml.Data.Validation in *)
-  (* record *)
-  (*   (fun fields -> *)
-  (*     let* layout = required fields "layout" string in *)
-  (*     match layout with *)
-  (*     | "index" -> *)
-  (*       let+ page = Index.validate_fields fields in *)
-  (*       Index page *)
-  (*     | "base" -> *)
-  (*       let+ page = Base.validate_fields fields in *)
-  (*       Base page *)
-  (*     | "article" -> assert false *)
-  (*     | field -> Error (Yocaml.Nel.singleton (Missing_field { field })) ) *)
-  (*   data *)
-  assert false
+let get_template = function Base _ -> "base.html" | Index _ -> "index.html"
 
-let normalize = function
-  | Base page -> Base.normalize page
-  | Index page -> Index.normalize page
+let models page =
+  match page with
+  | Base page -> Base.models page
+  | Index page -> Index.models page

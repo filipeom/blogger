@@ -22,6 +22,8 @@ let copy_file src dst =
   in
   loop ()
 
+let write_file path content = Bos.OS.File.write path content |> Utils.log_err
+
 (** Moves the contents of a directory into another *)
 let copy_directory ~into source =
   iter ~traverse:`None ~elements:`Files source @@ fun file ->
